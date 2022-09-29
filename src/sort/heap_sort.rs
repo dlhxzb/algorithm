@@ -1,0 +1,61 @@
+use std::collections::VecDeque;
+use std::fmt::Debug;
+
+pub fn heap_sort<T: Ord + Debug>(list: &mut Vec<T>) {
+    let mut q = VecDeque::with_capacity(list.len());
+    while let Some(data) = list.pop() {
+        insert_end(&mut q, data);
+    }
+    while let Some(data) = delete_top(&mut q) {
+        list.push(data)
+    }
+}
+
+fn insert_end<T: Ord + Debug>(q: &mut VecDeque<T>, data: T) {
+    q.push_back(data);
+    let mut new_idx = q.len() - 1;
+    while new_idx > 0 {
+        let parent = (new_idx - 1) / 2;
+        if q[new_idx] < q[parent] {
+            q.swap(new_idx, parent);
+            new_idx = parent;
+        } else {
+            break;
+        }
+    }
+}
+
+fn delete_top<T: Ord + Debug>(q: &mut VecDeque<T>) -> Option<T> {
+    let top = q.pop_front();
+    // 首尾互换，避免移除顶部后窜行导致叶子节点比父节点大
+    if let Some(d) = q.pop_back() {
+        q.push_front(d);
+    }
+    let len = q.len();
+    let mut idx = 0;
+    // 左叶子节点存在
+    while idx * 2 + 1 < len {
+        let left = idx * 2 + 1;
+        let right = left + 1;
+        if right < len && q[right] < q[left] {
+            q.swap(right, idx);
+            idx = right;
+        } else if q[left] < q[idx] {
+            q.swap(left, idx);
+            idx = left;
+        } else {
+            // idx比左右叶子都小
+            break;
+        }
+    }
+    dbg!(q);
+
+    top
+}
+
+#[test]
+fn test_heap_sort() {
+    let mut arr = vec![2, 9, 5, 7, 6, 3, 8, 4, 6, 1];
+    heap_sort(&mut arr);
+    assert_eq!(arr, vec![1, 2, 3, 4, 5, 6, 6, 7, 8, 9]);
+}
