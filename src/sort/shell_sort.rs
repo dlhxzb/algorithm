@@ -9,6 +9,7 @@ pub fn shell_sort<T: Ord + Debug>(list: &mut [T]) {
         for i in step..len {
             let mut j = i;
             // 当前值之前已排序，从当前值向前，比它大的都向后窜
+            // 2,3,4,`1` -> `1`,2,3,4
             while j >= step && list[j] < list[j - step] {
                 list.swap(j, j - step);
                 j -= step;

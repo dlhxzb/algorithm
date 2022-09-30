@@ -1,6 +1,7 @@
 use std::collections::VecDeque;
 use std::fmt::Debug;
 
+// 为所有权转移到小顶堆方便，使用Vec非[]
 pub fn heap_sort<T: Ord + Debug>(list: &mut Vec<T>) {
     let mut q = VecDeque::with_capacity(list.len());
     while let Some(data) = list.pop() {

@@ -18,7 +18,7 @@ fn quick_sort_inner<T: Ord + Debug>(list: &mut [T], start: usize, end: usize) {
 }
 
 // 迭代版
-pub fn quick_sort_no_recurse<T: Ord + Debug>(list: &mut [T]) {
+pub fn quick_sort_no_recursion<T: Ord + Debug>(list: &mut [T]) {
     let mut ranges = vec![(0, list.len() - 1)];
     while !ranges.is_empty() {
         ranges = ranges
@@ -68,8 +68,8 @@ fn test_quick_sort() {
 }
 
 #[test]
-fn test_quick_sort_no_recurse() {
+fn test_quick_sort_no_recursion() {
     let mut arr = [2, 9, 5, 7, 6, 3, 8, 4, 6, 1];
-    quick_sort_no_recurse(&mut arr);
+    quick_sort_no_recursion(&mut arr);
     assert_eq!(arr, [1, 2, 3, 4, 5, 6, 6, 7, 8, 9]);
 }
