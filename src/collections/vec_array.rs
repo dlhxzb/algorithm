@@ -28,6 +28,7 @@ impl<T, const N: usize> VecArray<T, N> {
         if self.len > 0 {
             let last = std::mem::replace(&mut self.array[self.len - 1], MaybeUninit::<T>::uninit());
             self.len -= 1;
+            // SAFETY: array[len-1] is available
             Some(unsafe { last.assume_init() })
         } else {
             None
@@ -35,10 +36,11 @@ impl<T, const N: usize> VecArray<T, N> {
     }
 
     pub fn truncate(&mut self, new_len: usize) {
-        unsafe {
-            let len = self.len;
-            if new_len < len {
-                self.len = new_len;
+        let len = self.len;
+        if new_len < len {
+            self.len = new_len;
+            // SAFETY: array[..len] is available
+            unsafe {
                 std::ptr::drop_in_place(MaybeUninit::slice_assume_init_mut(
                     &mut self.array[new_len..len],
                 ));
@@ -60,6 +62,7 @@ impl<T, const N: usize> Drop for VecArray<T, N> {
 impl<T, const N: usize> Deref for VecArray<T, N> {
     type Target = [T];
     fn deref(&self) -> &Self::Target {
+        // SAFETY: array[..len] is available
         unsafe { MaybeUninit::slice_assume_init_ref(&self.array[..self.len]) }
     }
 }

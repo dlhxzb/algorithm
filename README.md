@@ -1,5 +1,7 @@
 # 温故知新
 ## Sort
+* [LRU缓存淘汰](src/sort/lru.rs)
+* [LRU无锁版](src/sort/lru_lockfree.rs)
 * [希尔排序](src/sort/shell_sort.rs)
 * [堆排序](/src/sort/heap_sort.rs) 
 * [快速排序](src/sort/quick_sort.rs)

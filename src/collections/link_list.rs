@@ -47,7 +47,7 @@ pub mod unsafe_link_list {
                 let mut p_node = first;
                 unsafe {
                     while let Some(next) = p_node.as_ref().next {
-                        drop(p_node.as_ptr());
+                        drop_in_place(p_node.as_ptr());
                         p_node = next;
                     }
                     drop_in_place(p_node.as_ptr());
@@ -57,6 +57,7 @@ pub mod unsafe_link_list {
     }
 
     // E0509 when an attempt is made to move out of a value whose type implements the Drop trait.
+    // 实现Drop trait的struct不能部分所有权转移
     // impl<T: Debug> Drop for Node<T> {
     //     fn drop(&mut self) {
     //         println!("drop {:?}", self);
