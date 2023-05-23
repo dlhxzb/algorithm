@@ -1,5 +1,6 @@
 # 温故知新
 ## Sort
+* [dijkstra算法](src/sort/dijkstra.rs) 图，最短路径
 * [LRU缓存淘汰](src/sort/lru.rs)
 * [LRU无锁版](src/sort/lru_lockfree.rs)
 * [希尔排序](src/sort/shell_sort.rs)

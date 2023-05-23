@@ -1,3 +1,4 @@
+pub mod dijkstra;
 pub mod heap_sort;
 pub mod lru;
 pub mod lru_lockfree;
